@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # https://github.com/sciurus/r10k-git-hook
+# https://github.com/badgerben/r10k-git-hook
 
 umask 0022
 
@@ -10,10 +11,14 @@ while read oldrev newrev refname; do
         files=$(git diff-tree -r --name-only --no-commit-id ${oldrev}..${newrev})
         if [[ $files =~ 'Puppetfile' ]]; then
             echo "r10k updating $branch environment and modules"
-            /usr/local/bin/r10k deploy environment $branch -p
+            sudo /usr/bin/r10k deploy environment $branch -p
+			echo "deleting $branch environment cache"
+			sudo /usr/local/sbin/delete_environment_cache.sh $branch
         else
             echo "r10k updating $branch environment"
-            /usr/local/bin/r10k deploy environment $branch
+            sudo /usr/bin/r10k deploy environment $branch
+			echo "deleting $branch environment cache"
+			sudo /usr/local/sbin/delete_environment_cache.sh $branch
         fi
     else
         echo "r10k skipping $refname"
