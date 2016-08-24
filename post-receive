@@ -12,13 +12,13 @@ while read oldrev newrev refname; do
         if [[ $files =~ 'Puppetfile' ]]; then
             echo "r10k updating $branch environment and modules"
             sudo /usr/bin/r10k deploy environment $branch -p
-			echo "deleting $branch environment cache"
-			sudo /usr/local/sbin/delete_environment_cache.sh $branch
+            echo "deleting $branch environment cache"
+            sudo /usr/local/sbin/delete_environment_cache.sh $branch
         else
             echo "r10k updating $branch environment"
             sudo /usr/bin/r10k deploy environment $branch
-			echo "deleting $branch environment cache"
-			sudo /usr/local/sbin/delete_environment_cache.sh $branch
+            echo "deleting $branch environment cache"
+            sudo /usr/local/sbin/delete_environment_cache.sh $branch
         fi
     else
         echo "r10k skipping $refname"
